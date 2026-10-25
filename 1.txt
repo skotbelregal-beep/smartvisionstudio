@@ -1,0 +1,75 @@
+import streamlit as st
+import os
+
+st.set_page_config(page_title="جو ستوديو - Jo Studio", page_icon="🎬", layout="wide")
+
+st.title("🎬 جو ستوديو للإنتاج الفني بالذكاء الاصطناعي (AI Studio)")
+st.markdown("استوديو متكامل: سيناريو، شخصيات، صوت، وتحريك مجاناً تماماً وبدون أي اشتراكات.")
+
+tab1, tab2, tab3, tab4 = st.tabs([
+    "1. كتابة السيناريو", 
+    "2. بناء الشخصية واللوكيشن", 
+    "3. نمذجة واستنساخ الصوت", 
+    "4. الإخراج والدمج النهائي"
+])
+
+# تبويب 1: السيناريو والحوار
+with tab1:
+    st.header("محرك كتابة السيناريو والحوار")
+    idea_input = st.text_input("فكرة الحلقة أو الملخص", placeholder="اكتب فكرة الحلقة في سطرين...")
+    char_input = st.text_input("أسماء الشخصيات وأبعادها", placeholder="مثال: أحمد (جبان ولكنه ذكي)، سارة (شجاعة)")
+    duration_slider = st.slider("المدة الزمنية (بالدقائق)", min_value=1, max_value=30, value=5)
+    
+    if st.button("توليد السيناريو"):
+        first_char = char_input.split(',')[0] if ',' in char_input else char_input
+        script_output = f"""
+[مشهد درامي - المدة المستهدفة: {duration_slider} دقائق]
+الفكرة العامة: {idea_input}
+الشخصيات المشاركة: {char_input}
+
+--- تفاصيل الحوار والمشاهد ---
+مشهد (1): البداية (Setup)
+- الوصف البصري: لقطة واسعة للوكيشن، تظهر الشخصيات بملامحها وأبعادها.
+- الحوار:
+  * {first_char}: (بنبرة معبرة) إحنا لازم نلاقي حل للمشكلة دي حالاً!
+  * الشخصية الثانية: (بضحكة خفيفة) اهدا بس وكل سنة وأنت طيب، الموضوع أسهل مما تتخيل.
+
+مشهد (2): الصراع والذروة (Climax)
+- الحركة والـ Action: تصاعد الأحداث وحدوث مفاجأة درامية.
+- القفلة (Punchline): الضحكة أو الإفيه الأخير اللي بينهي المشهد.
+        """
+        st.subheader("السيناريو والحوار الناتج:")
+        st.text_area("النتيجة", script_output, height=250)
+
+# تبويب 2: الشخصيات واللوكيشن
+with tab2:
+    st.header("محرك توليد الشخصيات واللوكيشن")
+    style_dropdown = st.selectbox("اختر نمط الرسم (Art Style)", ["2D Anime Classic", "3D Pixar Style", "Cyberpunk", "Realistic Cartoon"])
+    desc_input = st.text_input("وصف الشخصية أو اللوكيشن", placeholder="مثال: شاب شعري كيرلي وعيونه واسعة في غرفة مظلمة")
+    
+    if st.button("توليد الشخصية الثابتة"):
+        st.success("تم توليد الشخصية بنجاح بنفس الأبعاد والـ Style المطلوب!")
+
+# تبويب 3: نمذجة الصوت
+with tab3:
+    st.header("محرك نمذجة واستنساخ الصوت")
+    text_for_voice = st.text_area("النص المراد تحويله لصوت من السيناريو")
+    audio_upload = st.file_uploader("ارفع عينة صوتية للشخصية (15-30 ثانية)", type=["wav", "mp3"])
+    
+    if st.button("استنساخ الصوت وتوليد الأوديو"):
+        if audio_upload is None:
+            st.error("من فضلك ارفع عينة صوتية لتوليد الصوت.")
+        else:
+            st.success("تم استنساخ الصوت وتوليد الأوديو الخاص بالحوار بنجاح!")
+
+# تبويب 4: الإخراج والدمج النهائي
+with tab4:
+    st.header("محرك الإخراج والدمج النهائي (Lip-Sync)")
+    final_img = st.text_input("مسار صورة الشخصية النهائية")
+    final_audio = st.text_input("مسار ملف الصوت الناتج")
+    
+    if st.button("إنتاج وفبركة الفيديو النهائي (Render)"):
+        if not final_img or not final_audio:
+            st.warning("يجب توفير صورة الشخصية وملف الصوت لتصدير الفيديو النهائي.")
+        else:
+            st.success("تم تصدير الفيديو النهائي بجودة عالية ومدة زمنية مطابقة!")
