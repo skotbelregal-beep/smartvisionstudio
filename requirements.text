@@ -5,3 +5,5 @@ diffusers
 accelerate
 soundfile
 librosa
+streamlit
+google-genai
